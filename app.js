@@ -2,7 +2,7 @@ const raidData = {
   "Sheet Metal Door": { hp: 250, methods: { rockets: 2, c4: 1, exploammo: 63, satchel: 4 } },
   "Garage Door": { hp: 600, methods: { rockets: 3, c4: 2, exploammo: 150, satchel: 9 } },
   "Armored Door": { hp: 800, methods: { rockets: 4, c4: 2, exploammo: 200, satchel: 12 } },
-  "Stone Wall": { hp: 500, methods: { rockets: 4, c4: 2, exploammo: 185, satchel: 10 } },
+  "Stone Wall": { hp: 500, methods: { rockets: 4, c4: 2, exploammo: 182, satchel: 10 } },
   "Metal Wall": { hp: 1000, methods: { rockets: 8, c4: 4, exploammo: 400, satchel: 23 } },
   "Armored Wall": { hp: 2000, methods: { rockets: 15, c4: 8, exploammo: 799, satchel: 46 } },
   "Tool Cupboard": { hp: 1000, methods: { rockets: 8, c4: 4, exploammo: 400, satchel: 23 } }
@@ -16,37 +16,66 @@ const sulfurPer = {
 };
 
 const craftData = {
-  "Assault Rifle": { "High Quality Metal": 50, "Wood": 200, "Metal Fragments": 450 },
-  "Rocket": { "Explosives": 10, "Metal Pipe": 2 },
+  "Workbench Level 1": { "Wood": 500, "Metal Fragments": 100 },
+  "Workbench Level 2": { "Metal Fragments": 500, "High Quality Metal": 20, "Basic Blueprint Fragment": 5 },
+  "Workbench Level 3": { "Metal Fragments": 1000, "High Quality Metal": 100, "Advanced Blueprint Fragment": 5 },
+  "Furnace": { "Stones": 200, "Wood": 100, "Low Grade Fuel": 50 },
+  "Large Furnace": { "Stones": 500, "Wood": 600, "Low Grade Fuel": 75 },
+  "Electric Furnace": { "High Quality Metal": 5, "Metal Fragments": 200 },
   "Garage Door": { "Gears": 2, "Metal Fragments": 300 },
-  "Armored Door": { "High Quality Metal": 25, "Gears": 5 },
-  "Auto Turret": { "Targeting Computer": 1, "Camera": 1, "High Quality Metal": 40 },
-  "Workbench Level 3": { "Scrap": 1250, "Metal Fragments": 1000, "High Quality Metal": 100 }
+  "Armored Door": { "High Quality Metal": 20, "Gears": 5 },
+  "Tool Cupboard": { "Wood": 1000 },
+  "Auto Turret": { "Targeting Computer": 1, "CCTV Camera": 1, "High Quality Metal": 10 }
 };
 
 const recycleData = {
-  "Road Sign": { Scrap: 5, "High Quality Metal": 1 },
-  "SMG Body": { Scrap: 15, "High Quality Metal": 2, "Metal Fragments": 25 },
-  "Rifle Body": { Scrap: 25, "High Quality Metal": 3, "Metal Fragments": 50 },
-  "Sheet Metal": { Scrap: 1, "Metal Fragments": 8 },
-  "Metal Pipe": { Scrap: 2, "Metal Fragments": 10 },
-  "Metal Spring": { Scrap: 10, "High Quality Metal": 1 },
-  "Semi Automatic Body": { Scrap: 15, "High Quality Metal": 1, "Metal Fragments": 15 },
-  "Weapon Barrel": { Scrap: 20, "High Quality Metal": 2, "Metal Fragments": 15 },
-  "Roadsign Gloves": { Scrap: 2, "High Quality Metal": 1, "Metal Fragments": 10 },
-  "Road Sign Jacket": { Scrap: 5, "High Quality Metal": 1, "Metal Fragments": 30 },
-  "Sewing Kit": { Scrap: 4, Cloth: 10 },
-  "Tarp": { Cloth: 50 },
-  "Empty Propane Tank": { Scrap: 1, "Metal Fragments": 15 },
-  "Metal Blade": { Scrap: 2, "Metal Fragments": 15 },
-  "Tech Trash": { Scrap: 20, "High Quality Metal": 1 },
-  "CCTV Camera": { Scrap: 10, "High Quality Metal": 2 },
-  "Targeting Computer": { Scrap: 30, "High Quality Metal": 3 },
-  "Laptop": { Scrap: 10, "High Quality Metal": 1 },
-  "Counter": { Scrap: 8, "High Quality Metal": 1 },
-  "Gears": { Scrap: 10, "Metal Fragments": 13 },
-  "Pistol Bullet": { "Metal Fragments": 1 },
-  "Rope": { Cloth: 15 }
+  "Road Signs": {
+    guaranteed: { Scrap: 6 },
+    chance: { "High Quality Metal": 0.2 }
+  },
+  "Metal Pipe": {
+    guaranteed: { Scrap: 6 },
+    chance: { "High Quality Metal": 0.2 }
+  },
+  "Gears": {
+    guaranteed: { Scrap: 12, "Metal Fragments": 15 }
+  },
+  "Metal Spring": {
+    guaranteed: { Scrap: 12 },
+    chance: { "High Quality Metal": 0.2 }
+  },
+  "Semi Automatic Body": {
+    guaranteed: { Scrap: 18, "Metal Fragments": 90 },
+    chance: { "High Quality Metal": 0.8 }
+  },
+  "SMG Body": {
+    guaranteed: { Scrap: 18 },
+    chance: { "High Quality Metal": 0.8 }
+  },
+  "Rifle Body": {
+    guaranteed: { Scrap: 30 },
+    chance: { "High Quality Metal": 0.8 }
+  },
+  "Tech Trash": {
+    guaranteed: { Scrap: 24 },
+    chance: { "High Quality Metal": 0.2 }
+  },
+  "Targeting Computer": {
+    guaranteed: { "Tech Trash": 3, "Metal Fragments": 60 },
+    chance: { "High Quality Metal": 0.2 }
+  },
+  "CCTV Camera": {
+    chance: { "Tech Trash": 0.8, "High Quality Metal": 0.8 }
+  },
+  "Counter": {
+    guaranteed: { "Metal Fragments": 45 }
+  },
+  "Empty Propane Tank": {
+    guaranteed: { "Metal Fragments": 60 }
+  },
+  "Rope": {
+    guaranteed: { Cloth: 15 }
+  }
 };
 
 const monumentData = [
@@ -106,11 +135,13 @@ const recyclerModes = {
   monument: {
     label: "Monument (Green Recycler)",
     multiplier: 1,
+    efficiency: "60%",
     badgeClass: "mode-green"
   },
   outpost: {
     label: "Outpost (Yellow Recycler)",
-    multiplier: 0.8,
+    multiplier: 2 / 3,
+    efficiency: "40%",
     badgeClass: "mode-yellow"
   }
 };
@@ -208,7 +239,15 @@ function renderRecycle() {
 
   recycleEntries.forEach((entry) => {
     const yields = recycleData[entry.item];
-    Object.entries(yields).forEach(([name, value]) => {
+    const guaranteed = yields.guaranteed || {};
+    const chance = yields.chance || {};
+
+    Object.entries(guaranteed).forEach(([name, value]) => {
+      totals[name] = (totals[name] || 0) + value * entry.qty;
+    });
+
+    // Add expected value for chance-based recycler outputs (e.g. 20% HQM).
+    Object.entries(chance).forEach(([name, value]) => {
       totals[name] = (totals[name] || 0) + value * entry.qty;
     });
   });
@@ -221,8 +260,10 @@ function renderRecycle() {
   recycleOutput.innerHTML = `
     <div class="row"><strong>Total Recycle Return</strong><span class="muted">Estimated output</span></div>
     <span class="metric ${mode.badgeClass}">Recycler: ${mode.label}</span>
-    <span class="metric">Output Multiplier: ${(mode.multiplier * 100).toFixed(0)}%</span>
+    <span class="metric">Efficiency: ${mode.efficiency}</span>
+    <span class="metric">Relative Yield: ${(mode.multiplier * 100).toFixed(1)}% of Monument</span>
     ${Object.entries(adjustedTotals).map(([name, value]) => `<span class="metric">${name}: ${prettyNumber(value)}</span>`).join("")}
+    <p class="muted">Chance outputs are shown as expected values using RustClash recycler percentages.</p>
   `;
 
   document.querySelectorAll("[data-remove-rec]").forEach((btn) => {
