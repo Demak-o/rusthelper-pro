@@ -108,7 +108,7 @@
       <article id="recycler" class="panel tool-card">
         <div class="card-head">
           <h2>Recycler Returns Calculator</h2>
-          <p>Input component quantities and estimate recycled resources/scrap.</p>
+          <p>Input component quantities, then switch between Monument (green) and Outpost (yellow) recycler output.</p>
         </div>
         <div class="tool-grid">
           <label>Component
@@ -116,6 +116,12 @@
           </label>
           <label>Quantity
             <input id="recycleQty" type="number" min="1" value="1" />
+          </label>
+          <label>Recycler Type
+            <select id="recycleMode">
+              <option value="monument">Monument (Green Recycler)</option>
+              <option value="outpost">Outpost (Yellow Recycler)</option>
+            </select>
           </label>
           <button id="recycleAdd" class="btn">Add Component</button>
         </div>

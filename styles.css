@@ -1,13 +1,13 @@
 :root {
-  --bg: #0b1415;
-  --panel: #122024;
-  --panel-2: #172a2f;
-  --ink: #e8f6f2;
-  --muted: #9cb7af;
-  --accent: #86ff8f;
-  --accent-2: #2fe4b2;
+  --bg: #160d0c;
+  --panel: #241412;
+  --panel-2: #2d1916;
+  --ink: #f8ede8;
+  --muted: #c5a9a0;
+  --accent: #ff4c33;
+  --accent-2: #ff7a33;
   --danger: #ff6f6f;
-  --line: #204047;
+  --line: #51302a;
   --shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
 }
 
@@ -19,7 +19,7 @@ html,
 body {
   margin: 0;
   padding: 0;
-  background: radial-gradient(circle at top right, #1a3127 0%, var(--bg) 35%, #090f11 100%);
+  background: radial-gradient(circle at top right, #5d2419 0%, var(--bg) 35%, #0d0807 100%);
   color: var(--ink);
   font-family: "Space Grotesk", sans-serif;
   scroll-behavior: smooth;
@@ -42,7 +42,7 @@ body {
 .hero-inner {
   max-width: 1180px;
   margin: 0 auto;
-  background: linear-gradient(120deg, rgba(47, 228, 178, 0.12) 0%, rgba(134, 255, 143, 0.08) 50%, rgba(0, 0, 0, 0.18) 100%);
+  background: linear-gradient(120deg, rgba(255, 76, 51, 0.16) 0%, rgba(255, 122, 51, 0.13) 50%, rgba(0, 0, 0, 0.2) 100%);
   border: 1px solid var(--line);
   border-radius: 20px;
   padding: 1.75rem;
@@ -88,7 +88,7 @@ h1 span {
   border: 1px solid var(--line);
   border-radius: 999px;
   padding: 0.35rem 0.7rem;
-  background: rgba(134, 255, 143, 0.08);
+  background: rgba(255, 122, 51, 0.12);
 }
 
 .layout {
@@ -175,7 +175,7 @@ input,
 select,
 button {
   border: 1px solid var(--line);
-  background: #0d181c;
+  background: #1a100f;
   color: var(--ink);
   border-radius: 10px;
   padding: 0.62rem 0.7rem;
@@ -185,7 +185,7 @@ button {
 .btn {
   font-weight: 600;
   cursor: pointer;
-  background: linear-gradient(135deg, rgba(134, 255, 143, 0.22), rgba(47, 228, 178, 0.22));
+  background: linear-gradient(135deg, rgba(255, 76, 51, 0.22), rgba(255, 122, 51, 0.22));
 }
 
 .btn:hover {
@@ -221,6 +221,16 @@ button {
   padding: 0.3rem 0.55rem;
   margin: 0.2rem 0.25rem 0 0;
   background: rgba(255, 255, 255, 0.02);
+}
+
+.mode-green {
+  border-color: #2f9d5d;
+  color: #8be6ab;
+}
+
+.mode-yellow {
+  border-color: #bf8d2f;
+  color: #ffe39a;
 }
 
 .muted {

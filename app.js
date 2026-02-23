@@ -81,6 +81,7 @@ const upkeepOutput = document.getElementById("upkeepOutput");
 
 const recycleItem = document.getElementById("recycleItem");
 const recycleQty = document.getElementById("recycleQty");
+const recycleMode = document.getElementById("recycleMode");
 const recycleAdd = document.getElementById("recycleAdd");
 const recycleList = document.getElementById("recycleList");
 const recycleOutput = document.getElementById("recycleOutput");
@@ -95,6 +96,18 @@ const intelGrid = document.getElementById("intelGrid");
 
 const raidEntries = [];
 const recycleEntries = [];
+const recyclerModes = {
+  monument: {
+    label: "Monument (Green Recycler)",
+    multiplier: 1,
+    badgeClass: "mode-green"
+  },
+  outpost: {
+    label: "Outpost (Yellow Recycler)",
+    multiplier: 0.8,
+    badgeClass: "mode-yellow"
+  }
+};
 
 function fillSelect(selectEl, items) {
   selectEl.innerHTML = "";
@@ -202,9 +215,12 @@ function renderUpkeep() {
 }
 
 function renderRecycle() {
+  const modeKey = recycleMode.value;
+  const mode = recyclerModes[modeKey];
+
   if (!recycleEntries.length) {
     recycleList.innerHTML = "<p class='muted'>No components queued for recycling.</p>";
-    recycleOutput.innerHTML = "<p class='muted'>Add component stacks to see total returns.</p>";
+    recycleOutput.innerHTML = `<p class='muted'>Add component stacks to see total returns for ${mode.label}.</p>`;
     return;
   }
 
@@ -221,9 +237,16 @@ function renderRecycle() {
     });
   });
 
+  const adjustedTotals = {};
+  Object.entries(totals).forEach(([name, value]) => {
+    adjustedTotals[name] = value * mode.multiplier;
+  });
+
   recycleOutput.innerHTML = `
     <div class="row"><strong>Total Recycle Return</strong><span class="muted">Estimated output</span></div>
-    ${Object.entries(totals).map(([name, value]) => `<span class="metric">${name}: ${prettyNumber(value)}</span>`).join("")}
+    <span class="metric ${mode.badgeClass}">Recycler: ${mode.label}</span>
+    <span class="metric">Output Multiplier: ${(mode.multiplier * 100).toFixed(0)}%</span>
+    ${Object.entries(adjustedTotals).map(([name, value]) => `<span class="metric">${name}: ${prettyNumber(value)}</span>`).join("")}
   `;
 
   document.querySelectorAll("[data-remove-rec]").forEach((btn) => {
@@ -285,6 +308,7 @@ function init() {
     recycleEntries.push({ item: recycleItem.value, qty: Math.max(1, Number(recycleQty.value) || 1) });
     renderRecycle();
   });
+  recycleMode.addEventListener("change", renderRecycle);
 
   furnaceCalc.addEventListener("click", renderFurnace);
 
