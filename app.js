@@ -1,11 +1,21 @@
 const raidData = {
   "Sheet Metal Door": { hp: 250, methods: { rockets: 2, c4: 1, exploammo: 63, satchel: 4 }, hybrid: { rockets: 1, exploammo: 8 } },
   "Garage Door": { hp: 600, methods: { rockets: 3, c4: 2, exploammo: 150, satchel: 9 } },
-  "Armored Door": { hp: 800, methods: { rockets: 4, c4: 2, exploammo: 200, satchel: 12 } },
+  "Armored Door": { hp: 1000, methods: { rockets: 5, c4: 3, exploammo: 250, satchel: 15 } },
   "Stone Wall": { hp: 500, methods: { rockets: 4, c4: 2, exploammo: 185, satchel: 10 }, hybrid: { rockets: 3, exploammo: 30 } },
   "Metal Wall": { hp: 1000, methods: { rockets: 8, c4: 4, exploammo: 400, satchel: 23 } },
   "Armored Wall": { hp: 2000, methods: { rockets: 15, c4: 8, exploammo: 799, satchel: 46 } },
-  "Tool Cupboard": { hp: 1000, methods: { rockets: 8, c4: 4, exploammo: 400, satchel: 23 } }
+  "Tool Cupboard": { hp: 100, methods: { rockets: 1, c4: 1, exploammo: 10, satchel: 1 } }
+};
+
+const raidTimeData = {
+  "Sheet Metal Door": { rockets: 6, c4: 10, exploammo: 23, satchel: 13 },
+  "Garage Door": { rockets: 12, c4: 11, exploammo: 64, satchel: 21 },
+  "Armored Door": { rockets: 24, c4: 13, exploammo: 106, satchel: 30 },
+  "Stone Wall": { rockets: 18, c4: 11, exploammo: 78, satchel: 22 },
+  "Metal Wall": { rockets: 43, c4: 14, exploammo: 171, satchel: 42 },
+  "Armored Wall": { rockets: 86, c4: 20, exploammo: 346, satchel: 76 },
+  "Tool Cupboard": { rockets: 1, c4: 10, exploammo: 1, satchel: 9 }
 };
 
 const sulfurPer = {
@@ -162,6 +172,16 @@ function prettyNumber(value) {
   return Math.round(value).toLocaleString();
 }
 
+function prettyDuration(totalSeconds) {
+  const seconds = Math.max(0, Math.round(totalSeconds));
+  const mins = Math.floor(seconds / 60);
+  const rem = seconds % 60;
+  if (mins < 1) {
+    return `${rem}s`;
+  }
+  return `${mins}m ${rem}s`;
+}
+
 function renderRaid() {
   if (!raidEntries.length) {
     raidList.innerHTML = "<p class='muted'>No raid targets added yet.</p>";
@@ -170,7 +190,9 @@ function renderRaid() {
   }
 
   const totals = { rockets: 0, c4: 0, exploammo: 0, satchel: 0 };
+  const times = { rockets: 0, c4: 0, exploammo: 0, satchel: 0 };
   const hybridTotals = { rockets: 0, c4: 0, exploammo: 0, satchel: 0 };
+  let hybridTimeSeconds = 0;
 
   raidList.innerHTML = raidEntries.map((entry, idx) => {
     const methods = raidData[entry.target].methods;
@@ -180,16 +202,28 @@ function renderRaid() {
   raidEntries.forEach((entry) => {
     const target = raidData[entry.target];
     const methods = target.methods;
+    const methodTimes = raidTimeData[entry.target];
     totals.rockets += methods.rockets * entry.qty;
     totals.c4 += methods.c4 * entry.qty;
     totals.exploammo += methods.exploammo * entry.qty;
     totals.satchel += methods.satchel * entry.qty;
+    times.rockets += methodTimes.rockets * entry.qty;
+    times.c4 += methodTimes.c4 * entry.qty;
+    times.exploammo += methodTimes.exploammo * entry.qty;
+    times.satchel += methodTimes.satchel * entry.qty;
 
     if (target.hybrid) {
       hybridTotals.rockets += (target.hybrid.rockets || 0) * entry.qty;
       hybridTotals.c4 += (target.hybrid.c4 || 0) * entry.qty;
       hybridTotals.exploammo += (target.hybrid.exploammo || 0) * entry.qty;
       hybridTotals.satchel += (target.hybrid.satchel || 0) * entry.qty;
+      hybridTimeSeconds +=
+        (
+          ((target.hybrid.rockets || 0) / methods.rockets) * methodTimes.rockets +
+          ((target.hybrid.c4 || 0) / methods.c4) * methodTimes.c4 +
+          ((target.hybrid.exploammo || 0) / methods.exploammo) * methodTimes.exploammo +
+          ((target.hybrid.satchel || 0) / methods.satchel) * methodTimes.satchel
+        ) * entry.qty;
     }
   });
 
@@ -209,18 +243,23 @@ function renderRaid() {
     <div class="row"><strong>Totals by Method</strong><span class="muted">Choose one method path (not combined)</span></div>
     <span class="metric">Rockets: ${prettyNumber(totals.rockets)}</span>
     <span class="metric">Rocket Sulfur: ${prettyNumber(sulfurByMethod.rockets)}</span>
+    <span class="metric">Rocket Time: ${prettyDuration(times.rockets)}</span>
     <span class="metric">C4: ${prettyNumber(totals.c4)}</span>
     <span class="metric">C4 Sulfur: ${prettyNumber(sulfurByMethod.c4)}</span>
+    <span class="metric">C4 Time: ${prettyDuration(times.c4)}</span>
     <span class="metric">Explosive Ammo: ${prettyNumber(totals.exploammo)}</span>
     <span class="metric">Explo Ammo Sulfur: ${prettyNumber(sulfurByMethod.exploammo)}</span>
+    <span class="metric">Explo Ammo Time: ${prettyDuration(times.exploammo)}</span>
     <span class="metric">Satchels: ${prettyNumber(totals.satchel)}</span>
     <span class="metric">Satchel Sulfur: ${prettyNumber(sulfurByMethod.satchel)}</span>
+    <span class="metric">Satchel Time: ${prettyDuration(times.satchel)}</span>
     <div class="row"><strong>Hybrid Route (where available)</strong><span class="muted">Common mixed methods like rocket+explo</span></div>
     <span class="metric">Hybrid Rockets: ${prettyNumber(hybridTotals.rockets)}</span>
     <span class="metric">Hybrid C4: ${prettyNumber(hybridTotals.c4)}</span>
     <span class="metric">Hybrid Explo Ammo: ${prettyNumber(hybridTotals.exploammo)}</span>
     <span class="metric">Hybrid Satchels: ${prettyNumber(hybridTotals.satchel)}</span>
     <span class="metric">Hybrid Sulfur: ${prettyNumber(hybridSulfur)}</span>
+    <span class="metric">Hybrid Time (Est.): ${prettyDuration(hybridTimeSeconds)}</span>
     <p class="muted">Sheet Metal Door hybrid: 1 rocket + 8 explosive ammo. Pure sulfur cheapest remains 63 explosive ammo.</p>
     <p class="muted">Example: 2 stone walls = 8 rockets OR 4 C4 OR 370 explosive ammo OR 20 satchels.</p>
   `;
