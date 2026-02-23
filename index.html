@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>RustHelper Pro | Rust Cost Calculators & Data Tools</title>
-  <meta name="description" content="Advanced Rust game toolkit with raid cost calculator, crafting planner, upkeep estimator, recycle returns, and quick monument data." />
+  <meta name="description" content="Advanced Rust game toolkit with raid cost calculator, crafting planner, recycle returns, furnace planning, and quick monument data." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -16,12 +16,12 @@
     <div class="hero-inner">
       <p class="eyebrow">Rust Toolkit</p>
       <h1>RustHelper <span>Pro</span></h1>
-      <p class="hero-copy">A deep utility hub for Rust players: compare raid methods, plan crafting mats, estimate TC upkeep, model recycling yields, and track key monument facts in one place.</p>
+      <p class="hero-copy">A deep utility hub for Rust players: compare raid methods, plan crafting mats, model recycling yields, and track key monument facts in one place.</p>
       <div class="hero-pills">
         <span>Raid Economics</span>
         <span>Crafting Planner</span>
-        <span>Upkeep Estimator</span>
         <span>Recycle Yields</span>
+        <span>Furnace Planner</span>
       </div>
     </div>
   </header>
@@ -32,7 +32,6 @@
       <nav>
         <a href="#raid">Raid Cost Calculator</a>
         <a href="#crafting">Crafting Cost Planner</a>
-        <a href="#upkeep">Tool Cupboard Upkeep</a>
         <a href="#recycler">Recycler Returns</a>
         <a href="#furnace">Furnace Planner</a>
         <a href="#intel">Monument Intel</a>
@@ -74,35 +73,6 @@
           <button id="craftCalc" class="btn">Calculate Crafting Cost</button>
         </div>
         <div id="craftOutput" class="result"></div>
-      </article>
-
-      <article id="upkeep" class="panel tool-card">
-        <div class="card-head">
-          <h2>Tool Cupboard Upkeep Estimator</h2>
-          <p>Approximate 24h upkeep for your base footprint by building tier and key deployables.</p>
-        </div>
-        <div class="tool-grid upkeep-grid">
-          <label>Wood Blocks
-            <input id="upWood" type="number" min="0" value="0" />
-          </label>
-          <label>Stone Blocks
-            <input id="upStone" type="number" min="0" value="0" />
-          </label>
-          <label>Metal Blocks
-            <input id="upMetal" type="number" min="0" value="0" />
-          </label>
-          <label>Armored Blocks
-            <input id="upHqm" type="number" min="0" value="0" />
-          </label>
-          <label>Garage Doors
-            <input id="upGarage" type="number" min="0" value="0" />
-          </label>
-          <label>Turrets
-            <input id="upTurret" type="number" min="0" value="0" />
-          </label>
-          <button id="upkeepCalc" class="btn">Estimate 24h Upkeep</button>
-        </div>
-        <div id="upkeepOutput" class="result"></div>
       </article>
 
       <article id="recycler" class="panel tool-card">

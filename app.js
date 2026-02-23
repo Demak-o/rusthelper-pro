@@ -29,8 +29,23 @@ const recycleData = {
   "SMG Body": { Scrap: 15, "High Quality Metal": 2, "Metal Fragments": 25 },
   "Rifle Body": { Scrap: 25, "High Quality Metal": 3, "Metal Fragments": 50 },
   "Sheet Metal": { Scrap: 1, "Metal Fragments": 8 },
+  "Metal Pipe": { Scrap: 2, "Metal Fragments": 10 },
+  "Metal Spring": { Scrap: 10, "High Quality Metal": 1 },
+  "Semi Automatic Body": { Scrap: 15, "High Quality Metal": 1, "Metal Fragments": 15 },
+  "Weapon Barrel": { Scrap: 20, "High Quality Metal": 2, "Metal Fragments": 15 },
+  "Roadsign Gloves": { Scrap: 2, "High Quality Metal": 1, "Metal Fragments": 10 },
+  "Road Sign Jacket": { Scrap: 5, "High Quality Metal": 1, "Metal Fragments": 30 },
+  "Sewing Kit": { Scrap: 4, Cloth: 10 },
+  "Tarp": { Cloth: 50 },
+  "Empty Propane Tank": { Scrap: 1, "Metal Fragments": 15 },
+  "Metal Blade": { Scrap: 2, "Metal Fragments": 15 },
   "Tech Trash": { Scrap: 20, "High Quality Metal": 1 },
+  "CCTV Camera": { Scrap: 10, "High Quality Metal": 2 },
+  "Targeting Computer": { Scrap: 30, "High Quality Metal": 3 },
+  "Laptop": { Scrap: 10, "High Quality Metal": 1 },
+  "Counter": { Scrap: 8, "High Quality Metal": 1 },
   "Gears": { Scrap: 10, "Metal Fragments": 13 },
+  "Pistol Bullet": { "Metal Fragments": 1 },
   "Rope": { Cloth: 15 }
 };
 
@@ -69,15 +84,6 @@ const craftItem = document.getElementById("craftItem");
 const craftQty = document.getElementById("craftQty");
 const craftCalc = document.getElementById("craftCalc");
 const craftOutput = document.getElementById("craftOutput");
-
-const upWood = document.getElementById("upWood");
-const upStone = document.getElementById("upStone");
-const upMetal = document.getElementById("upMetal");
-const upHqm = document.getElementById("upHqm");
-const upGarage = document.getElementById("upGarage");
-const upTurret = document.getElementById("upTurret");
-const upkeepCalc = document.getElementById("upkeepCalc");
-const upkeepOutput = document.getElementById("upkeepOutput");
 
 const recycleItem = document.getElementById("recycleItem");
 const recycleQty = document.getElementById("recycleQty");
@@ -184,36 +190,6 @@ function renderCraft() {
   `;
 }
 
-function renderUpkeep() {
-  const values = {
-    wood: Number(upWood.value) || 0,
-    stone: Number(upStone.value) || 0,
-    metal: Number(upMetal.value) || 0,
-    hqm: Number(upHqm.value) || 0,
-    garage: Number(upGarage.value) || 0,
-    turret: Number(upTurret.value) || 0
-  };
-
-  const daily = {
-    wood: values.wood * 15,
-    stone: values.stone * 30,
-    metal: values.metal * 15,
-    hqm: values.hqm * 2,
-    gears: values.garage * 1,
-    hqmDeployable: values.turret * 1
-  };
-
-  upkeepOutput.innerHTML = `
-    <div class="row"><strong>24h Upkeep Estimate</strong><span class="muted">Fast-planning approximation</span></div>
-    <span class="metric">Wood: ${prettyNumber(daily.wood)}</span>
-    <span class="metric">Stone: ${prettyNumber(daily.stone)}</span>
-    <span class="metric">Metal Fragments: ${prettyNumber(daily.metal)}</span>
-    <span class="metric">HQM (Building): ${prettyNumber(daily.hqm)}</span>
-    <span class="metric">Gears (Garage Doors): ${prettyNumber(daily.gears)}</span>
-    <span class="metric">HQM (Turrets): ${prettyNumber(daily.hqmDeployable)}</span>
-  `;
-}
-
 function renderRecycle() {
   const modeKey = recycleMode.value;
   const mode = recyclerModes[modeKey];
@@ -302,7 +278,6 @@ function init() {
   });
 
   craftCalc.addEventListener("click", renderCraft);
-  upkeepCalc.addEventListener("click", renderUpkeep);
 
   recycleAdd.addEventListener("click", () => {
     recycleEntries.push({ item: recycleItem.value, qty: Math.max(1, Number(recycleQty.value) || 1) });
@@ -314,7 +289,6 @@ function init() {
 
   renderRaid();
   renderCraft();
-  renderUpkeep();
   renderRecycle();
   renderFurnace();
   renderIntel();
