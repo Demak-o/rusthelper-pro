@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RustHelper Pro | Rust Cost Calculators & Data Tools</title>
+  <meta name="description" content="Advanced Rust game toolkit with raid cost calculator, crafting planner, upkeep estimator, recycle returns, and quick monument data." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="bg-grid" aria-hidden="true"></div>
+  <header class="hero">
+    <div class="hero-inner">
+      <p class="eyebrow">Rust Toolkit</p>
+      <h1>RustHelper <span>Pro</span></h1>
+      <p class="hero-copy">A deep utility hub for Rust players: compare raid methods, plan crafting mats, estimate TC upkeep, model recycling yields, and track key monument facts in one place.</p>
+      <div class="hero-pills">
+        <span>Raid Economics</span>
+        <span>Crafting Planner</span>
+        <span>Upkeep Estimator</span>
+        <span>Recycle Yields</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="layout">
+    <aside class="panel nav-panel">
+      <h2>Tools</h2>
+      <nav>
+        <a href="#raid">Raid Cost Calculator</a>
+        <a href="#crafting">Crafting Cost Planner</a>
+        <a href="#upkeep">Tool Cupboard Upkeep</a>
+        <a href="#recycler">Recycler Returns</a>
+        <a href="#furnace">Furnace Planner</a>
+        <a href="#intel">Monument Intel</a>
+      </nav>
+      <p class="muted">Values are fast planning references and may vary by patch/server rates.</p>
+    </aside>
+
+    <section class="content">
+      <article id="raid" class="panel tool-card">
+        <div class="card-head">
+          <h2>Raid Cost Calculator</h2>
+          <p>Estimate sulfur and crafted explosive cost by target type and quantity.</p>
+        </div>
+        <div class="tool-grid raid-grid">
+          <label>Target Type
+            <select id="raidTarget"></select>
+          </label>
+          <label>Quantity
+            <input id="raidQty" type="number" min="1" value="1" />
+          </label>
+          <button id="raidAdd" class="btn">Add Target</button>
+        </div>
+        <div id="raidList" class="list"></div>
+        <div id="raidOutput" class="result"></div>
+      </article>
+
+      <article id="crafting" class="panel tool-card">
+        <div class="card-head">
+          <h2>Crafting Cost Planner</h2>
+          <p>Break down crafting material requirements for key deployables and items.</p>
+        </div>
+        <div class="tool-grid">
+          <label>Item
+            <select id="craftItem"></select>
+          </label>
+          <label>Quantity
+            <input id="craftQty" type="number" min="1" value="1" />
+          </label>
+          <button id="craftCalc" class="btn">Calculate Crafting Cost</button>
+        </div>
+        <div id="craftOutput" class="result"></div>
+      </article>
+
+      <article id="upkeep" class="panel tool-card">
+        <div class="card-head">
+          <h2>Tool Cupboard Upkeep Estimator</h2>
+          <p>Approximate 24h upkeep for your base footprint by building tier and key deployables.</p>
+        </div>
+        <div class="tool-grid upkeep-grid">
+          <label>Wood Blocks
+            <input id="upWood" type="number" min="0" value="0" />
+          </label>
+          <label>Stone Blocks
+            <input id="upStone" type="number" min="0" value="0" />
+          </label>
+          <label>Metal Blocks
+            <input id="upMetal" type="number" min="0" value="0" />
+          </label>
+          <label>Armored Blocks
+            <input id="upHqm" type="number" min="0" value="0" />
+          </label>
+          <label>Garage Doors
+            <input id="upGarage" type="number" min="0" value="0" />
+          </label>
+          <label>Turrets
+            <input id="upTurret" type="number" min="0" value="0" />
+          </label>
+          <button id="upkeepCalc" class="btn">Estimate 24h Upkeep</button>
+        </div>
+        <div id="upkeepOutput" class="result"></div>
+      </article>
+
+      <article id="recycler" class="panel tool-card">
+        <div class="card-head">
+          <h2>Recycler Returns Calculator</h2>
+          <p>Input component quantities and estimate recycled resources/scrap.</p>
+        </div>
+        <div class="tool-grid">
+          <label>Component
+            <select id="recycleItem"></select>
+          </label>
+          <label>Quantity
+            <input id="recycleQty" type="number" min="1" value="1" />
+          </label>
+          <button id="recycleAdd" class="btn">Add Component</button>
+        </div>
+        <div id="recycleList" class="list"></div>
+        <div id="recycleOutput" class="result"></div>
+      </article>
+
+      <article id="furnace" class="panel tool-card">
+        <div class="card-head">
+          <h2>Furnace Planner</h2>
+          <p>Plan ore, fuel, and smelt time for sulfur/metal/HQM runs.</p>
+        </div>
+        <div class="tool-grid furnace-grid">
+          <label>Ore Type
+            <select id="furnaceOre">
+              <option value="sulfur">Sulfur Ore</option>
+              <option value="metal">Metal Ore</option>
+              <option value="hqm">HQM Ore</option>
+            </select>
+          </label>
+          <label>Ore Amount
+            <input id="furnaceOreAmount" type="number" min="1" value="1000" />
+          </label>
+          <label>Furnace Type
+            <select id="furnaceType">
+              <option value="small">Small Furnace</option>
+              <option value="large">Large Furnace</option>
+            </select>
+          </label>
+          <button id="furnaceCalc" class="btn">Plan Smelt</button>
+        </div>
+        <div id="furnaceOutput" class="result"></div>
+      </article>
+
+      <article id="intel" class="panel tool-card">
+        <div class="card-head">
+          <h2>Monument Intel</h2>
+          <p>Quick reference for high-value monument risk/reward routes.</p>
+        </div>
+        <div id="intelGrid" class="intel-grid"></div>
+      </article>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>RustHelper Pro | built for fast decision making during wipe.</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
