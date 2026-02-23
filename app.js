@@ -90,13 +90,15 @@ const monumentData = [
 const furnaceProfiles = {
   small: {
     label: "Small Furnace",
-    orePerMinute: { sulfur: 45, metal: 60, hqm: 15 },
-    woodPerMinute: 22
+    orePerMinute: { sulfur: 36, metal: 18, hqm: 9 },
+    orePerWood: { sulfur: 1.2, metal: 0.6, hqm: 0.3 },
+    strategy: "Efficient split stacks (RustClash community baseline)"
   },
   large: {
     label: "Large Furnace",
-    orePerMinute: { sulfur: 300, metal: 360, hqm: 90 },
-    woodPerMinute: 132
+    orePerMinute: { sulfur: 96, metal: 42, hqm: 18 },
+    orePerWood: { sulfur: 3.2, metal: 1.4, hqm: 0.75 },
+    strategy: "Low-maintenance large furnace stack baseline"
   }
 };
 
@@ -284,13 +286,14 @@ function renderFurnace() {
   const rate = profile.orePerMinute[oreType];
   const output = oreAmount * oreYield[oreType];
   const minutes = oreAmount / rate;
-  const woodNeeded = minutes * profile.woodPerMinute;
+  const woodNeeded = oreAmount / profile.orePerWood[oreType];
 
   furnaceOutput.innerHTML = `
     <div class="row"><strong>${profile.label} Plan</strong><span class="muted">${oreAmount.toLocaleString()} ${furnaceOre.options[furnaceOre.selectedIndex].text}</span></div>
     <span class="metric">Output: ${prettyNumber(output)} ${oreNames[oreType]}</span>
     <span class="metric">Approx Time: ${minutes.toFixed(1)} min</span>
     <span class="metric">Wood Needed: ${prettyNumber(woodNeeded)}</span>
+    <p class="muted">${profile.strategy}</p>
   `;
 }
 
