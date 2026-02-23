@@ -169,7 +169,7 @@ function renderRaid() {
     return;
   }
 
-  const totals = { rockets: 0, c4: 0, exploammo: 0, satchel: 0, sulfur: 0 };
+  const totals = { rockets: 0, c4: 0, exploammo: 0, satchel: 0 };
 
   raidList.innerHTML = raidEntries.map((entry, idx) => {
     const methods = raidData[entry.target].methods;
@@ -184,19 +184,24 @@ function renderRaid() {
     totals.satchel += methods.satchel * entry.qty;
   });
 
-  totals.sulfur =
-    totals.rockets * sulfurPer.rockets +
-    totals.c4 * sulfurPer.c4 +
-    totals.exploammo * sulfurPer.exploammo +
-    totals.satchel * sulfurPer.satchel;
+  const sulfurByMethod = {
+    rockets: totals.rockets * sulfurPer.rockets,
+    c4: totals.c4 * sulfurPer.c4,
+    exploammo: totals.exploammo * sulfurPer.exploammo,
+    satchel: totals.satchel * sulfurPer.satchel
+  };
 
   raidOutput.innerHTML = `
-    <div class="row"><strong>Totals</strong><span class="muted">Combined sulfur if crafted per method count</span></div>
+    <div class="row"><strong>Totals by Method</strong><span class="muted">Choose one method path (not combined)</span></div>
     <span class="metric">Rockets: ${prettyNumber(totals.rockets)}</span>
+    <span class="metric">Rocket Sulfur: ${prettyNumber(sulfurByMethod.rockets)}</span>
     <span class="metric">C4: ${prettyNumber(totals.c4)}</span>
+    <span class="metric">C4 Sulfur: ${prettyNumber(sulfurByMethod.c4)}</span>
     <span class="metric">Explosive Ammo: ${prettyNumber(totals.exploammo)}</span>
+    <span class="metric">Explo Ammo Sulfur: ${prettyNumber(sulfurByMethod.exploammo)}</span>
     <span class="metric">Satchels: ${prettyNumber(totals.satchel)}</span>
-    <span class="metric">Approx Sulfur Budget: ${prettyNumber(totals.sulfur)}</span>
+    <span class="metric">Satchel Sulfur: ${prettyNumber(sulfurByMethod.satchel)}</span>
+    <p class="muted">Example: 2 stone walls = 8 rockets OR 4 C4 OR 364 explosive ammo OR 20 satchels.</p>
   `;
 
   document.querySelectorAll("[data-remove-raid]").forEach((btn) => {
